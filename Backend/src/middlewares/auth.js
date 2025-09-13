@@ -4,6 +4,7 @@ const { jwtSecret } = require('../config/jwt');
 const User = require('../models/User');
 
 const protect = async (req, res, next) => {
+  console.log('Cookies received by backend: ', req.cookies); // Debugging line
   let token;
 
   if (req.cookies.access_token) {
