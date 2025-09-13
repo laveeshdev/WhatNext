@@ -14,13 +14,16 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json()); // For parsing application/json
 app.use(cors({
-  origin: [process.env.CORS_ORIGIN, 'http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: [process.env.CORS_ORIGIN, 'https://whatnext-front.onrender.com', 'http://localhost:5173', 'http://127.0.0.1:5173'],
   credentials: true
 }));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/todos', todoRoutes);
 
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
