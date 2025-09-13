@@ -34,8 +34,8 @@ const registerUser = async (req, res) => {
     const token = generateToken(user._id);
     res.cookie('access_token', token, {
       httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none', // Use 'none' for cross-site cookies
+      secure: true, // 'secure' must be true when sameSite is 'none'
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
     res.status(201).json({
@@ -61,8 +61,8 @@ const loginUser = async (req, res) => {
     const token = generateToken(user._id);
     res.cookie('access_token', token, {
       httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none', // Use 'none' for cross-site cookies
+      secure: true, // 'secure' must be true when sameSite is 'none'
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
     res.json({

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TaskForm from '../components/TaskForm';
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const TaskEdit = () => {
@@ -16,8 +16,8 @@ const TaskEdit = () => {
         const config = {
           withCredentials: true,
         };
-        const response = await axios.get(`http://localhost:5000/api/todos/${id}`, config);
-        setTask(response.data);
+  const response = await axiosInstance.get(`/todos/${id}`, config);
+  setTask(response.data);
         setLoading(false);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to fetch task');
@@ -33,7 +33,7 @@ const TaskEdit = () => {
       const config = {
         withCredentials: true,
       };
-      await axios.put(`http://localhost:5000/api/todos/${id}`, updatedTask, config);
+  await axiosInstance.put(`/todos/${id}`, updatedTask, config);
       navigate('/tasks'); // Redirect to tasks page on successful update
     } catch (err) {
       console.error('Failed to update task:', err.response?.data?.message || err.message);

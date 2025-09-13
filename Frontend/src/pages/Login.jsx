@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login, loading, error } = useAuth();
+  const { login, loading, error, user } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // If user is already logged in, redirect to tasks
+    if (user) {
+      navigate('/tasks');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await login({ email, password });
-      navigate('/tasks'); // Redirect to tasks page on successful login
+      // The useEffect above will handle the redirect once the user state is updated
     } catch (err) {
       // Error is already handled by AuthContext, can display a generic message or specific error from context
       console.error('Login failed:', err);

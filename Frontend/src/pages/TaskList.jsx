@@ -4,7 +4,7 @@ import SearchBar from '../components/SearchBar';
 import SortControls from '../components/SortControls';
 import Pagination from '../components/Pagination';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance';
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -41,7 +41,7 @@ const TaskList = () => {
         params,
       };
   
-      const response = await axios.get('http://localhost:5000/api/todos', config);
+  const response = await axiosInstance.get('/todos', config);
       setTasks(response.data.data);
       setTotalTasks(response.data.total);
       setTotalPages(response.data.totalPages);
@@ -80,7 +80,7 @@ const TaskList = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this task?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/todos/${id}`, { withCredentials: true });
+  await axiosInstance.delete(`/todos/${id}`, { withCredentials: true });
         fetchTasks();
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to delete task');
@@ -90,7 +90,7 @@ const TaskList = () => {
 
   const handleToggleComplete = async (id, currentCompletedStatus) => {
     try {
-      await axios.put(`http://localhost:5000/api/todos/${id}`, { completed: !currentCompletedStatus }, { withCredentials: true });
+  await axiosInstance.put(`/todos/${id}`, { completed: !currentCompletedStatus }, { withCredentials: true });
       fetchTasks();
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to toggle task status');

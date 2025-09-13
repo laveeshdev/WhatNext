@@ -1,6 +1,6 @@
 import React from 'react';
 import TaskForm from '../components/TaskForm';
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
 const TaskCreate = () => {
@@ -11,7 +11,7 @@ const TaskCreate = () => {
       const config = {
         withCredentials: true,
       };
-      await axios.post('http://localhost:5000/api/todos', task, config);
+  await axiosInstance.post('/todos', task, config);
       navigate('/tasks'); // Redirect to tasks page on successful creation
     } catch (err) {
       console.error('Failed to create task:', err.response?.data?.message || err.message);
